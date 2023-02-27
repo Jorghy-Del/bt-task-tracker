@@ -2,9 +2,15 @@
   "tasks": [
     {
       "text": "work",
-      "day": "now",
+      "day": "tomorrow",
       "reminder": true,
-      "id": 8
+      "id": 9
+    },
+    {
+      "text": "work",
+      "day": "today now",
+      "reminder": true,
+      "id": 10
     }
   ]
 }

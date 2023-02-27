@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
-import Footer from './components/Footer';
+import Footer from "./components/Footer";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
-import About from './components/About';
+import About from "./components/About";
 
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
@@ -12,40 +12,39 @@ function App() {
 
   useEffect(() => {
     const getTasks = async () => {
-      const tasksFromServer = await fetchTasks()
-      setTasks(tasksFromServer)
-    }
-    getTasks()
-  }, [])
+      const tasksFromServer = await fetchTasks();
+      setTasks(tasksFromServer);
+    };
+    getTasks();
+  }, []);
 
   // Fetch Tasks
   const fetchTasks = async () => {
-    const response = await fetch('http://localhost:5000/tasks')
-    const data = await response.json()
-    return data
-  }
+    const response = await fetch("http://localhost:5000/tasks");
+    const data = await response.json();
+    return data;
+  };
 
   // Fetch Task
   const fetchTask = async (id) => {
-    const response = await fetch(`http://localhost:5000/tasks/${id}`)
-    const data = await response.json()
-    return data
-  }
+    const response = await fetch(`http://localhost:5000/tasks/${id}`);
+    const data = await response.json();
+    return data;
+  };
 
   // Add Task
   const addTask = async (task) => {
-    const response = await fetch('http://localhost:5000/tasks', {
-      method: 'POST',
+    const response = await fetch("http://localhost:5000/tasks", {
+      method: "POST",
       headers: {
-        'Content-type': 'application/json'
+        "Content-type": "application/json",
       },
-      body: JSON.stringify(task)
-    })
+      body: JSON.stringify(task),
+    });
 
-    const data = await response.json()
+    const data = await response.json();
 
-    setTasks([...tasks, data])
-
+    setTasks([...tasks, data]);
 
     // const id = nanoid();
     // console.log(task.text, task.day, task.reminder, id);
@@ -56,29 +55,29 @@ function App() {
   // Delete Task
   const deleteTask = async (id) => {
     await fetch(`http://localhost:5000/tasks/${id}`, {
-      method: 'DELETE',
-    })
+      method: "DELETE",
+    });
 
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
   // Toggle Reminder
   const toggleReminder = async (id) => {
-    const taskToToggle = await fetchTask(id)
+    const taskToToggle = await fetchTask(id);
     const updatedTask = {
       ...taskToToggle,
-      reminder: !taskToToggle.reminder
-    }
+      reminder: !taskToToggle.reminder,
+    };
 
     const res = await fetch(`http://localhost:5000/tasks/${id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-type': 'application/json'
+        "Content-type": "application/json",
       },
-      body: JSON.stringify(updatedTask)
-    })
+      body: JSON.stringify(updatedTask),
+    });
 
-    const data = await res.json()
+    const data = await res.json();
 
     setTasks(
       tasks.map((task) =>
@@ -96,7 +95,7 @@ function App() {
         />
         <Routes>
           <Route
-            path='/'
+            path="/"
             element={
               <>
                 {showAddTask && <AddTask onAdd={addTask} />}
@@ -107,12 +106,12 @@ function App() {
                     onToggle={toggleReminder}
                   />
                 ) : (
-                  'No Tasks To Show'
+                  "No Tasks To Show"
                 )}
               </>
             }
           />
-          <Route path='/about' element={<About />} />
+          <Route path="/about" element={<About />} />
         </Routes>
         <Footer />
       </div>
